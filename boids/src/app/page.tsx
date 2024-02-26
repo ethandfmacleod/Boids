@@ -1,44 +1,60 @@
+// Home.tsx
 "use client";
-import { KonvaEventObject } from "konva/lib/Node";
-import { useState } from "react";
-import { Layer, Rect, Stage } from "react-konva";
+import React, {useState} from "react";
+import { Layer, Stage } from "react-konva";
 import Boid from "./components/Boid";
 import AnimationManager from "./components/AnimationManager";
 
-type TDArray = {
-  x: number;
-  y: number;
-};
-
 export default function Home() {
-  const [coords, setcoords] = useState<TDArray>({
-    x: 10,
-    y: 10,
-  });
+  const WINDOW_WIDTH = window.innerWidth;
+  const WINDOW_HEIGHT = window.innerHeight;
 
-  const handleCoordsChange = (e: KonvaEventObject<MouseEvent>) => {
-    setcoords({
-      x: e.target.x(),
-      y: e.target.y(),
-    });
-  };
+  const initialBoids = [
+    { xStart: 500, yStart: 0 },
+    { xStart: 500, yStart: 100 },
+    { xStart: 500, yStart: 200 },
+    { xStart: 500, yStart: 350 },
+    // Add more initial boid configurations as needed
+  ];
 
-  console.log(coords);
+  const [boids, setBoids] = useState(initialBoids);
 
+  function getRandomXPos(){
+    return Math.floor(Math.random() * WINDOW_WIDTH);
+  }
+
+  function getRandomYPos(){
+    return Math.floor(Math.random() * WINDOW_HEIGHT);
+  }
+
+  function getRandomVelocity(){
+    const randomValue = Math.random();
+    const velocity = randomValue * 4 - 2;
+    return velocity;
+  }
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Stage
-        onDragEnd={handleCoordsChange}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={WINDOW_WIDTH}
+        height={WINDOW_HEIGHT}
         className="bg-white"
       >
         <Layer>
           <AnimationManager>
-            <Boid xStart={500} yStart={0} />
-            <Boid xStart={500} yStart={100} />
-            <Boid xStart={500} yStart={200} />
-            <Boid xStart={500} yStart={350} />
+            {(registerObject) => (
+              <>
+                {boids.map((boid, index) =>(
+                  <Boid
+                    key={index}
+                    xStart={getRandomXPos()}
+                    yStart={getRandomYPos()}
+                    registerObject={registerObject}
+                    initialVelocity={{dx: getRandomVelocity(), dy: getRandomVelocity()}}
+                  />
+                ))}
+              </>
+            )}
           </AnimationManager>
         </Layer>
       </Stage>

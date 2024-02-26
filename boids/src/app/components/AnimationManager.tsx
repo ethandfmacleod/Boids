@@ -1,7 +1,8 @@
+// AnimationManager.tsx
 import React, { useEffect, useRef, ReactNode } from "react";
 
 interface AnimationManagerProps {
-  children: ReactNode;
+  children: (registerObject: (updateFunction: () => void) => void) => ReactNode;
 }
 
 const AnimationManager: React.FC<AnimationManagerProps> = ({ children }) => {
@@ -29,7 +30,7 @@ const AnimationManager: React.FC<AnimationManagerProps> = ({ children }) => {
     };
   }, []);
 
-  return <>{children}</>;
+  return <>{children(registerObject)}</>;
 };
 
 export default AnimationManager;
