@@ -2,7 +2,7 @@
 import { KonvaEventObject } from "konva/lib/Node";
 import { useState } from "react";
 import { Layer, Rect, Stage } from "react-konva";
-import MovingRectangle from "./components/MovingRectangle";
+import Boid from "./components/Boid";
 import AnimationManager from "./components/AnimationManager";
 
 type TDArray = {
@@ -35,10 +35,10 @@ export default function Home() {
       >
         <Layer>
           <AnimationManager>
-            <MovingRectangle xStart={0} yStart={0} />
-            <MovingRectangle xStart={0} yStart={100} />
-            <MovingRectangle xStart={0} yStart={200} />
-            <MovingRectangle xStart={0} yStart={350} />
+            <Boid xStart={500} yStart={0} />
+            <Boid xStart={500} yStart={100} />
+            <Boid xStart={500} yStart={200} />
+            <Boid xStart={500} yStart={350} />
           </AnimationManager>
         </Layer>
       </Stage>
